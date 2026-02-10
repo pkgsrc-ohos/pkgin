@@ -99,14 +99,19 @@ int			colcount = 0;
 int			force_fetch = 0;
 
 /*
- * Slow machines with limited memory will probably want to define this to
- * reduce memory usage and speed up decompression, at the cost of increased
- * bandwidth usage (pkg_summary approx sizes: gz=5MB, bz2=3MB, xz=2MB).
+ * pkg_summary approximate sizes: zst/xz 2.5MB, bz2 3.5MB, gz 5MB.
+ *
+ * zstd is the best choice for all systems, but tooling does not currently
+ * produce them so the other suffixes will need to be supported for a while.
+ *
+ * zstd and gzip are fast to decompress with low memory usage; xz and bzip2 are
+ * slower and require more memory.  Define PREFER_GZIP_SUMMARY to prefer gzip
+ * over xz/bzip2 on slow machines with limited memory.
  */
 #if defined(PREFER_GZIP_SUMMARY)
-static const char *const sumexts[] = { "gz", "bz2", "xz", NULL };
+static const char *const sumexts[] = { "zst", "gz", "bz2", "xz", NULL };
 #else
-static const char *const sumexts[] = { "xz", "bz2", "gz", NULL };
+static const char *const sumexts[] = { "zst", "xz", "bz2", "gz", NULL };
 #endif
 
 /*
