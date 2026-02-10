@@ -1,3 +1,7 @@
+## Version 26.2.0 (2026-02-10)
+
+ * Support `pkg_summary.zst` files.
+
 ## Version 26.1.0 (2026-01-28)
 
  * Fix upgrade issue where the full list of affected packages was not
