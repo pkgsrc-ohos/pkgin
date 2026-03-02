@@ -743,8 +743,12 @@ pkgin_install(char **pkgargs, int do_inst, int upgrade)
 
 		p->pkgfs = xasprintf("%s/%s%s", pkgin_cache, p->rpkg->full,
 		    PKG_EXT);
-		p->pkgurl = xasprintf("%s/%s%s", pkgrepo, p->rpkg->full,
-		    PKG_EXT);
+
+		if (strstr(pkgrepo, PKG_EXT) != NULL) {
+			p->pkgurl = xstrdup(pkgrepo);
+		} else {
+			p->pkgurl = xasprintf("%s/%s%s", pkgrepo, p->rpkg->full, PKG_EXT);
+		}
 
 		/*
 		 * If the binary package has not already been downloaded, or
